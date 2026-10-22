@@ -72,7 +72,13 @@ app.get("/agora", (req, res) => {
   res.send(page("Agora", `<p>Este pedido foi respondido às <b>${now}</b>.</p>`));
 });
 
+app.get("/api/cartas", (req, res) => {
+  res.set("Access-Control-Allow-Origin", "http://localhost:5173");
+  res.json(cards);
+});
+
 app.use((req, res) => {
+  res.set("Access-Control-Allow-Origin", "http://localhost:5173");
   res.status(404).send(page(
     "404 — não encontrado",
     `<p>Não existe nada em <code>${req.url}</code>.</p>
