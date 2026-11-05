@@ -15,6 +15,12 @@ function App() {
   const [randomCard, setRandomCard] = useState(null);
   const [sorted, setSorted] = useState(false);
 
+    useEffect(() => {
+    fetch("http://localhost:3000/api/cartas")
+      .then((res) => res.json())
+      .then((data) => setCards(data));
+    }, []);
+
   let visible = cards
     .filter((card) => filter === "Todas" || card.type === filter)
     .filter((card) => card.name.toLowerCase().includes(search.toLowerCase()));
