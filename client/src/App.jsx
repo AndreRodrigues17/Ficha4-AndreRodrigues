@@ -4,6 +4,7 @@ import Card from "./Card.jsx";
 function App() {
   const [cards, setCards] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [filter, setFilter] = useState("Todas");
   const [search, setSearch] = useState("");
   const [randomCard, setRandomCard] = useState(null);
@@ -11,8 +12,12 @@ function App() {
 
   useEffect(() => {
     fetch("http://localhost:3000/api/cartas")
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
       .then((data) => setCards(data))
+      .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
   }, []);
 
@@ -33,6 +38,15 @@ function App() {
       <main>
         <h1>A minha coleção</h1>
         <p>A carregar…</p>
+      </main>
+    );
+  }
+
+  if (error) {
+    return (
+      <main>
+        <h1>A minha coleção</h1>
+        <p>Não foi possível carregar as cartas: {error}</p>
       </main>
     );
   }

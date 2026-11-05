@@ -78,6 +78,7 @@ app.get("/api/cartas", (req, res) => {
 });
 
 app.use((req, res) => {
+  res.set("Access-Control-Allow-Origin", "http://localhost:5173");
   res.status(404).send(page(
     "404 — não encontrado",
     `<p>Não existe nada em <code>${req.url}</code>.</p>
